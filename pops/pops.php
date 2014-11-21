@@ -27,12 +27,23 @@ add_settings_section('pops_main', 'Main Settings', 'pops_section_text', 'pops');
 add_settings_field('pops_image', 'The Image to use as a popup.', 'pops_setting_image', 'pops', 'pops_main');
 add_settings_field('pops_text_string2', 'The max-width of the image.', 'pops_setting_string2', 'pops', 'pops_main'); 
 add_settings_field('pops_text_string', 'add tracking to the image.', 'pops_setting_string', 'pops', 'pops_main');
-
+add_settings_field('pops_text_string3', 'The link for the popup.', 'pops_setting_string3', 'pops', 'pops_main');
+add_settings_field('pops_text_string4', 'The title for the popup.', 'pops_setting_string4', 'pops', 'pops_main');
 } 
 add_action( 'admin_init', 'pops_admin_init' );
 
 function pops_section_text() {
 echo '<p>Main description of this section here.</p>';
+}
+
+function pops_setting_string4() {
+$options = get_option('pops_options');
+echo "<input id='pops_text_string4' name='pops_options[text_string4]' size='40' type='text' value='{$options['text_string4']}' />";
+}
+
+function pops_setting_string3() {
+$options = get_option('pops_options');
+echo "<input id='pops_text_string3' name='pops_options[text_string3]' size='40' type='text' value='{$options['text_string3']}' />";
 }
 
 function pops_setting_string() {
@@ -62,6 +73,12 @@ $new_input = array();
 
         if( isset( $input['text_string2'] ) )
             $new_input['text_string2'] = sanitize_text_field( $input['text_string2'] );
+    
+        if( isset( $input['text_string3'] ) )
+            $new_input['text_string3'] = sanitize_text_field( $input['text_string3'] );
+    
+        if( isset( $input['text_string4'] ) )
+            $new_input['text_string4'] = sanitize_text_field( $input['text_string4'] );
     
         if( isset( $input['image'] ) )
             $new_input['image'] = sanitize_text_field( $input['image'] );    
@@ -101,31 +118,38 @@ function get_pops() {
 
 	$options = get_option('pops_options');
 	$image =  $options['image'];
-    $maxWidth =  $options['text_string'];    
-    $tracking = $options['text_string2'];   
+    $link =  $options['text_string3'];
+    $title =  $options['text_string4'];
+    $maxWidth =  $options['text_string2'];    
+    $tracking = $options['text_string'];   
 
 	$popup = '<div id="merch" class="mfp-hide" style="width:75%;max-width:'.$maxWidth.'px;height:auto;margin:0 auto;">
-<a onclick="'.tracking.'" href="https://store.dayzintel.com" target="_blank" title=""><img src="'.$image.'" alt="" style="width:100%;height:auto;"/></a></div><script type="text/javascript">
-function merch () {
-                            var merchvisited = $.cookie(\'visited\');
-                                if (merchvisited == \'yes\') {
-                                    return false;
-                                } else {
-                            $.magnificPopup.open({
-                              items: {
-                                src: \'#merch\'
-                              },
-                              type: \'inline\',
-                              closeBtnInside : \'true\'
-                            }, 0);
-                                }
-                            $.cookie(\'visited\', \'yes\', { expires: 1 });                            
-                        }
+<a onclick="'.$tracking.'" href="'.$link.'" target="_blank" title="'.$title.'"><img src="'.$image.'" alt="" style="width:100%;height:auto;"/></a></div>
+<script type="text/javascript">
+function merch () { 
+//Initialise the cookie variable
+var merchvisited = $.cookie(\'visited\');
+if (merchvisited == \'yes\') {
+//If user has the cookie, do nothing
+    return false;
+} else {
+//If the user hasnt the cookie, serve the pop-up
+    $.magnificPopup.open({
+    items: {
+    src: \'#merch\'
+    },
+    type: \'inline\',
+    closeBtnInside : \'true\'
+    }, 0);
+}
+//Set the cookie
+$.cookie(\'visited\', \'yes\', { expires: 1 });                            
+}   
+// Call the function
+merch ();
+</script>';
 
-                        merch ();
-                    </script>';
-
-	return $popup;	
+return $popup;	
 
 }
 
