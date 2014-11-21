@@ -6,7 +6,6 @@ Tested up to: 4.1
 Stable tag: 4.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-
 Pops - a tiny, simple popup manager for Wordpress.
 
 == Description ==
