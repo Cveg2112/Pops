@@ -92,23 +92,16 @@ function my_pops_menu() {
 
 function pops_options() {
 
-?>
-<div>
+echo '<div>
 <h2>Pops</h2>
 A couple of options to customise the pops pop-up.
-<form action="options.php" method="post">
-<?php settings_fields('pops_options'); ?>
-<?php do_settings_sections('pops'); ?>
+<form action="options.php" method="post">';
+settings_fields('pops_options');
+do_settings_sections('pops');
+echo '<input name="Submit" type="submit" value="Save Changes" />
+</form></div>';
  
-<input name="Submit" type="submit" value="<?php esc_attr_e('Save Changes'); ?>" />
-</form></div>
- 
- 
-<?php
-}?>
-
-<?php
-
+}
 
 add_action( 'admin_menu', 'my_pops_menu' );
 
