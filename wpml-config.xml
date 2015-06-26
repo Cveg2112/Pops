@@ -1,0 +1,9 @@
+<wpml-config>
+    <admin-texts>
+            <key name="">
+                //fields go here for translations with WPML, if needed                         
+            </key>                      
+    </admin-texts>    
+</wpml-config>
+
+

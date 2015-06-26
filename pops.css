@@ -1,0 +1,16 @@
+.black-drop { position: fixed;height: 100%;width: 100%;background-color: rgba(0, 0, 0, .75);z-index: 1000;top: 0;display: none;}
+.pops-close { width: 20px;height: 20px;line-height: 2px;position: absolute;right: 5px;top: 5px;text-decoration: none;text-align: center;opacity: 0.65;padding: 0;color: black;font-style: normal;font-size: 28px;font-family: Arial, Baskerville, monospace;border: none;background: none;z-index:1002}
+
+.wp-admin .pops {display:block;position: relative;}
+.pops {display:none;width:686px;height:416px;position:fixed;top:0;left:0;bottom:0;right:0;margin:auto;font-size: 16px;z-index:1001}
+    .pops img {width:100%;width:686px;height:413px;}
+    .pops .content {position:absolute;top:0px;left:0;width:100%;height:100%;text-align:center;}
+    .content:before {  content: '';display: inline-block;height: 100%;width: 0;vertical-align: middle;}
+        .content .info-box {display:inline-block;min-width:323px;position: relative;background:rgba(109,109,109,.6);color:#FFF;padding: 1em;max-width:50%;vertical-align: middle;}
+            .content .info-box h1 {font-family:adobe-garamond-pro, arial;}
+            .content .info-box p {font-family:raleway, arial;color:#fff!important;}
+        .content .button-box {display:inline-block;position: absolute;left:0;width:100%;text-align:center;bottom:-60px;}
+             .content .button-box a {  color: #FFF;background-color: #40C3EC;text-align: center;display: inline-block;margin:0 .25em; font-size: 1em;line-height: 1;font-family: raleway, arial;  text-decoration: none;  padding: 0.6em 1em;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;  border-radius: 6px;text-transform: capitalize;}
+
+.pops-form {}
+    .pops-form th {width:320px;}

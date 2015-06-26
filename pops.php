@@ -3,147 +3,76 @@
  * Plugin Name: Pops
  * Plugin URI: http://URI_Of_Page_Describing_Plugin_and_Updates
  * Description: A customised popup plugin.
- * Version: .1
+ * Version: 1.0
  * Author: Jamie Burleigh
  */
 
 add_action('admin_enqueue_scripts', 'my_admin_scripts');
+add_action( 'wp_enqueue_scripts', 'my_frontend_scripts' );
 
-
+// Include any scripts or files needed for the plugin to function
 function my_admin_scripts() {
 	if (isset($_GET['page']) && $_GET['page'] == 'pops') {
 		wp_enqueue_media();
 		wp_register_script('my-admin-js', WP_PLUGIN_URL.'/pops/pops.js', array('jquery'));
 		wp_enqueue_script('my-admin-js');
-	}
+        wp_register_style( 'pops-styles', plugins_url('pops.css', __FILE__) );
+        wp_enqueue_style( 'pops-styles' );
+	} 
 }
 
-function pops_admin_init() {
-register_setting( 'pops_options', 'pops_options', 'pops_options_validate');
-register_setting( 'pops_options2', 'pops_options2', 't5_sae_validate_option');
-register_setting( 'pops_image', 'pops_image', '');
-
-add_settings_section('pops_main', 'Main Settings', 'pops_section_text', 'pops');
-add_settings_field('pops_image', 'The Image to use as a popup.', 'pops_setting_image', 'pops', 'pops_main');
-add_settings_field('pops_text_string2', 'The max-width of the image.', 'pops_setting_string2', 'pops', 'pops_main'); 
-add_settings_field('pops_text_string', 'add tracking to the image.', 'pops_setting_string', 'pops', 'pops_main');
-add_settings_field('pops_text_string3', 'The link for the popup.', 'pops_setting_string3', 'pops', 'pops_main');
-add_settings_field('pops_text_string4', 'The title for the popup.', 'pops_setting_string4', 'pops', 'pops_main');
-} 
-add_action( 'admin_init', 'pops_admin_init' );
-
-function pops_section_text() {
-echo '<p>Main description of this section here.</p>';
+function my_frontend_scripts() {
+		wp_register_script('cookie-js', WP_PLUGIN_URL.'/pops/js/js-cookie.js', array('jquery'));
+		wp_enqueue_script('cookie-js'); 
+        wp_register_style( 'pops-styles', plugins_url('pops.css', __FILE__) );
+        wp_enqueue_style( 'pops-styles' );    
 }
 
-function pops_setting_string4() {
-$options = get_option('pops_options');
-echo "<input id='pops_text_string4' name='pops_options[text_string4]' size='40' type='text' value='{$options['text_string4']}' />";
-}
+include ( 'includes/fields.php');
 
-function pops_setting_string3() {
-$options = get_option('pops_options');
-echo "<input id='pops_text_string3' name='pops_options[text_string3]' size='40' type='text' value='{$options['text_string3']}' />";
-}
+include ( 'includes/fieldOutput.php');
 
-function pops_setting_string() {
-$options = get_option('pops_options');
-echo "<input id='pops_text_string' name='pops_options[text_string]' size='40' type='text' value='{$options['text_string']}' />";
-}
-
-function pops_setting_string2() {
-$options = get_option('pops_options');
-echo "<input id='pops_text_string2' name='pops_options[text_string2]' size='40' type='text' value='{$options['text_string2']}' />";
-}
-
-function pops_setting_image() {
-$options = get_option('pops_options');
-echo "<label for=\"upload_image\">
-	<input id=\"upload_image\" type=\"text\" size=\"36\" name=\"pops_options[image]\" value=\"{$options['image']}\" /> 
-	<input id=\"upload_image_button\" class=\"button\" type=\"button\" value=\"Upload Image\" />
-	<br />Enter a URL or upload an image
-</label>";
-}
-
-// validate our options
-function pops_options_validate($input) {
-$new_input = array();
-        if( isset( $input['text_string'] ) )
-            $new_input['text_string'] = sanitize_text_field( $input['text_string'] );
-
-        if( isset( $input['text_string2'] ) )
-            $new_input['text_string2'] = sanitize_text_field( $input['text_string2'] );
-    
-        if( isset( $input['text_string3'] ) )
-            $new_input['text_string3'] = sanitize_text_field( $input['text_string3'] );
-    
-        if( isset( $input['text_string4'] ) )
-            $new_input['text_string4'] = sanitize_text_field( $input['text_string4'] );
-    
-        if( isset( $input['image'] ) )
-            $new_input['image'] = sanitize_text_field( $input['image'] );    
-
-        return $new_input;
-}
+include ( 'includes/sanitize.php');
 
 function my_pops_menu() {
-	add_options_page( 'Pops', 'Pops', 'manage_options', 'pops', 'pops_options' );
+	add_options_page( 'Pops',                      // The text to be displayed in the title tags of the page when the menu is selected
+                      'Pops',                 // The text to be used for the menu
+                      'manage_options',            // The capability required for this menu to be displayed to the user.
+                      'pops',                      // The slug name to refer to this menu by (should be unique for this menu).
+                      'pops_options'               // The function to be called to output the content for this page.
+                    );
 }
 
-function pops_options() {
+function pops_options() { 
 
-echo '<div>
+$active_tab = isset( $_GET[ 'tab' ] ) ? $_GET[ 'tab' ] : 'main_options';
+
+$html .= '<div>
 <h2>Pops</h2>
-A couple of options to customise the pops pop-up.
-<form action="options.php" method="post">';
-settings_fields('pops_options');
-do_settings_sections('pops');
-echo '<input name="Submit" type="submit" value="Save Changes" />
-</form></div>';
- 
+
+<p>Pops, developed by <a href="mailto:j.burleigh1@gmail.com">Jamie Burleigh</a>. This plugin allows you to add, control and customise a simple pop-up.</p>
+
+<h2 class="nav-tab-wrapper">
+    <a href="?page=pops&tab=main_options" class="nav-tab '.  ($active_tab == 'main_options' ? 'nav-tab-active' : '') .'">Main Popup</a>
+</h2>
+
+<p>Current image in use is shown below:</p>';    
+        
+echo $html;
+    
+include ('includes/popPreview.php');
+            
+    echo '<form class="pops-form" action="options.php" method="post">';
+
+        settings_fields('pops_options');
+        do_settings_sections('pops');
+    
+    echo '<input name="Submit" type="submit" value="Save Changes" /></form>';
+    
 }
 
-add_action( 'admin_menu', 'my_pops_menu' );
+add_action ( 'admin_menu', 'my_pops_menu' );
 
-function get_pops() {
-
-	global $post;
-
-	$options = get_option('pops_options');
-	$image =  $options['image'];
-    $link =  $options['text_string3'];
-    $title =  $options['text_string4'];
-    $maxWidth =  $options['text_string2'];    
-    $tracking = $options['text_string'];   
-
-	$popup = '<div id="merch" class="mfp-hide" style="width:75%;max-width:'.$maxWidth.'px;height:auto;margin:0 auto;">
-<a onclick="'.$tracking.'" href="'.$link.'" target="_blank" title="'.$title.'"><img src="'.$image.'" alt="" style="width:100%;height:auto;"/></a></div>
-<script type="text/javascript">
-function merch () { 
-//Initialise the cookie variable
-var merchvisited = $.cookie(\'visited\');
-if (merchvisited == \'yes\') {
-//If user has the cookie, do nothing
-    return false;
-} else {
-//If the user hasnt the cookie, serve the pop-up
-    $.magnificPopup.open({
-    items: {
-    src: \'#merch\'
-    },
-    type: \'inline\',
-    closeBtnInside : \'true\'
-    }, 0);
-}
-//Set the cookie
-$.cookie(\'visited\', \'yes\', { expires: 1 });                            
-}   
-// Call the function
-merch ();
-</script>';
-
-return $popup;	
-
-}
+include ('includes/output.php');
 
 ?>
