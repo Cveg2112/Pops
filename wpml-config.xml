@@ -1,8 +1,26 @@
 <wpml-config>
     <admin-texts>
-            <key name="">
-                //fields go here for translations with WPML, if needed                         
-            </key>                      
+            <key name="pops_options">
+                <key name="pops_text_content" />
+                <key name="pops_text_button1_text" />                
+                <key name="pops_text_button1_link" />
+                <key name="pops_text_button2_text" />                
+                <key name="pops_text_button2_link" />                         
+            </key>
+            <key name="pops_secondary_options">
+                <key name="pops_text_content" />
+                <key name="pops_text_button1_text" />                
+                <key name="pops_text_button1_link" />
+                <key name="pops_text_button2_text" />                
+                <key name="pops_text_button2_link" />                         
+            </key> 
+            <key name="pops_tertiary_options">
+                <key name="pops_text_content" />
+                <key name="pops_text_button1_text" />                
+                <key name="pops_text_button1_link" />
+                <key name="pops_text_button2_text" />                
+                <key name="pops_text_button2_link" />                         
+            </key>                         
     </admin-texts>    
 </wpml-config>
 

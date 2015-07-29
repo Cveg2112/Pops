@@ -41,6 +41,9 @@ $new_input = array();
     if( isset( $input['pops_text_content2'] ) )
         $new_input['pops_text_content2'] = wp_kses( $input['pops_text_content2'], $allowed_html, $allowed_protocols );    
 
+    if( isset( $input['pops_text_content_bg'] ) )
+        $new_input['pops_text_content_bg'] = wp_kses( $input['pops_text_content_bg'], $allowed_html, $allowed_protocols );  
+
     if( isset( $input['pops_text_button1_text'] ) )
         $new_input['pops_text_button1_text'] = sanitize_text_field( $input['pops_text_button1_text'] );
 
@@ -51,7 +54,13 @@ $new_input = array();
         $new_input['pops_text_button1_link'] = sanitize_text_field( $input['pops_text_button1_link'] );
 
     if( isset( $input['pops_text_button2_link'] ) )
-        $new_input['pops_text_button2_link'] = sanitize_text_field( $input['pops_text_button2_link'] );    
+        $new_input['pops_text_button2_link'] = sanitize_text_field( $input['pops_text_button2_link'] ); 
+
+    if( isset( $input['pops_text_button1_color'] ) )
+        $new_input['pops_text_button1_color'] = sanitize_text_field( $input['pops_text_button1_color'] );
+
+    if( isset( $input['pops_text_button2_color'] ) )
+        $new_input['pops_text_button2_color'] = sanitize_text_field( $input['pops_text_button2_color'] );
 
     if( isset( $input['pops_image'] ) )
         $new_input['pops_image'] = sanitize_text_field( $input['pops_image'] );
@@ -67,6 +76,15 @@ $new_input = array();
 
     if( isset( $input['pops_targetting_cookie_length'] ) )
         $new_input['pops_targetting_cookie_length'] = sanitize_text_field( $input['pops_targetting_cookie_length'] );    
+
+    if( isset( $input['pops_targetting_enable_location'] ) )
+        $new_input['pops_targetting_enable_location'] = sanitize_text_field( $input['pops_targetting_enable_location'] ); 
+
+    if( isset( $input['pops_targetting_location'] ) )
+        $new_input['pops_targetting_location'] = sanitize_text_field( $input['pops_targetting_location'] );
+    
+    if( isset( $input['pops_targetting_ip'] ) )
+        $new_input['pops_targetting_ip'] = sanitize_text_field( $input['pops_targetting_ip'] );     
 
     return $new_input;
 }
